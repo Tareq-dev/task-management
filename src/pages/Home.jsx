@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import Calendar from "../components/Calendar";
 import AllTask from "../components/AllTask";
+import AllUsers from "../components/AllUsers";
 
 function Home() {
   return (
@@ -16,6 +17,7 @@ function Home() {
         <div className="bg-orange-50 p-4 ml-2 w-1/4">
           <h2 className="text-xl mb-6">Calendar</h2>
           <Calendar />
+          <AllUsers />
         </div>
       </div>
     </div>

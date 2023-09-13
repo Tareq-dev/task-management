@@ -30,7 +30,7 @@ function AllTask() {
         </Link>
       </div>
       <div className="grid grid-cols-3 gap-3">
-        <div className="bg-orange-50 p-4 mt-10 rounded-md">
+        <div className="bg-orange-100 p-4 mt-10 rounded-md">
           <div className="flex justify-between mb-6">
             <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-2xl shadow">
               <h4 className="text-orange-600 font-bold">Backlog</h4>
