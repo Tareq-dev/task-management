@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
-const TaskForm = () => {
+const TaskForm = ({ onClose }) => {
+  const today = new Date().toISOString().substr(0, 10); // Get today's date in "yyyy-MM-dd" format
+
   const [task, setTask] = useState({
-    dueDate: "",
+    dueDate: today,
     title: "",
     description: "",
     status: "backlog",
+    email: "",
   });
 
   const handleChange = (e) => {
@@ -18,13 +22,47 @@ const TaskForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    toast.success("Successfully toasted!");
+    const taskData = {
+      dueDate: task.dueDate,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      email: "tareeq@gmail.com",
+    };
     // Handle form submission here, e.g., save the task to your backend or state.
-    console.log(task);
+    console.log(taskData);
+
+    onClose();
   };
 
   return (
     <div className="bg-white w-full">
-      <h2 className="text-2xl font-semibold mb-4">Add New Task</h2>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-semibold mb-4">Add New Task</h2>
+
+        <button
+          onClick={onClose}
+          className="lg:tooltip lg:tooltip-bottom"
+          data-tip="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-10 h-10 bg-purple-400 rounded-full text-white"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="dueDate" className="block text-gray-700 font-medium">
@@ -89,7 +127,7 @@ const TaskForm = () => {
         <div className="text-center">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg focus:ring focus:ring-blue-300"
+            className="bg-orange-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg focus:ring focus:ring-blue-300"
           >
             Add Task
           </button>

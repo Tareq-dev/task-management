@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import TaskForm from "./Taskform";
 
 function Navbar() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="flex items-center justify-between w-full my-4">
       <ul className="flex text-lg gap-10 text-gray-500">
-        <li>
+        <li className="px-2 py-1 rounded-lg text-white bg-purple-400 font-semibold">
           <Link>My projects</Link>
         </li>
         <li>
@@ -18,21 +27,23 @@ function Navbar() {
       </ul>
       <div className=" flex items-center gap-4">
         <button
-          onClick={() => document.getElementById("my_modal_2").showModal()}
+          onClick={openModal}
           className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 cursor-pointer  px-4 rounded-xl "
         >
           Add Task
         </button>
-        <dialog id="my_modal_2" className="modal modal-bottom sm:modal-middle">
-          <div className="modal-box">
-            <div className="flex items-center justify-center">
-              <TaskForm />
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="modal modal-open">
+              <div className="modal-box">
+                <div className="flex items-center justify-center">
+                  <TaskForm onClose={closeModal} />
+                </div>
+              </div>
+              <form method="dialog" className="modal-backdrop"></form>
             </div>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+        )}
         <button className="btn btn-ghost btn-circle">
           <div className="indicator">
             <svg
