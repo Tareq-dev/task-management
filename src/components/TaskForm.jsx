@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import toast from "react-hot-toast";
+import { handleCreateTask } from "../context/Firebase";
+
+// import { useFirebase } from "../context/Firebase";
 
 const TaskForm = ({ onClose }) => {
-  const today = new Date().toISOString().substr(0, 10); // Get today's date in "yyyy-MM-dd" format
-
+  const today = new Date().toISOString().substr(0, 10);
   const [task, setTask] = useState({
     dueDate: today,
     title: "",
@@ -19,20 +20,27 @@ const TaskForm = ({ onClose }) => {
       [name]: value,
     });
   };
+  // const firebase = useFirebase();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    toast.success("Successfully toasted!");
-    const taskData = {
-      dueDate: task.dueDate,
-      title: task.title,
-      description: task.description,
-      status: task.status,
-      email: "tareeq@gmail.com",
-    };
-    // Handle form submission here, e.g., save the task to your backend or state.
-    console.log(taskData);
+    const email = "tareq@gmail.com";
+    const taskId = Date.now().toString();
+    handleCreateTask(
+      taskId,
+      task.dueDate,
+      task.title,
+      task.description,
+      task.status,
+      email
+    );
+    // await firebase.handleCreateTask(
+    //   task.dueDate,
+    //   task.title,
+    //   task.description,
+    //   task.status,
+    //   email
+    // );
 
     onClose();
   };
