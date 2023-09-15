@@ -11,6 +11,7 @@ const TaskForm = ({ onClose }) => {
     description: "",
     status: "backlog",
     email: "",
+    comments: [],
   });
 
   const handleChange = (e) => {
@@ -44,7 +45,6 @@ const TaskForm = ({ onClose }) => {
 
     onClose();
   };
-
   return (
     <div className="bg-white w-full">
       <div className="flex justify-between">

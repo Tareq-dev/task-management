@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, push, get } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIMhiltWftdVBKTDCMat5vzIwttgcihd4",
@@ -15,8 +15,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Realtime Database and get a reference to the service
-const db = getDatabase(app);
+export const db = getDatabase(app);
 
+//write data
 export function handleCreateTask(
   taskId,
   dueDate,
@@ -34,14 +35,47 @@ export function handleCreateTask(
     email,
   });
 }
+export async function handleCreateComments(
+  comId,
+  taskId,
+  commentator,
+  taskComments
+) {
+  const commentData = {
+    comId,
+    taskId,
+    commentator,
+    taskComments,
+  };
+  const taskCommentsRef = ref(db, `tasks/${taskId}/comments`);
+  const newCommentRef = push(taskCommentsRef);
+  try {
+    await set(newCommentRef, commentData);
+    console.log("Comment added successfully.");
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    throw error;
+  }
+}
 
-//read data
+//read comments data
 
-// import { getDatabase, ref, onValue } from "firebase/database";
+// export async function readCommentData(taskId) {
+//   const commentRef = ref(db, `tasks/${taskId}`);
 
-// const db = getDatabase();
-// const starCountRef = ref(db, "posts/" + postId + "/starCount");
-// onValue(starCountRef, (snapshot) => {
-//   const data = snapshot.val();
-//   updateStarCount(postElement, data);
-// });
+//   try {
+//     const snapshot = await get(commentRef);
+
+//     if (snapshot.exists()) {
+//       const commentData = snapshot.val();
+//       console.log("Comment Data:", commentData);
+//       return commentData;
+//     } else {
+//       console.log("No data available for the specified comment.");
+//       return null;
+//     }
+//   } catch (error) {
+//     console.error("Error reading comment data:", error);
+//     throw error;
+//   }
+// }
