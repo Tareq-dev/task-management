@@ -5,14 +5,14 @@ import Calendar from "../components/Calendar";
 import AllTask from "../components/AllTask";
 import AllUsers from "../components/AllUsers";
 
-function Home() {
+function Home({ user, tasks }) {
   return (
     <div className="container mx-auto">
-      <Navbar />
+      <Navbar user={user} />
       <div className="flex">
         <div className="bg-gray-50 p-4 w-3/4">
-          <Header />
-          <AllTask />
+          <Header tasks={tasks} />
+          <AllTask tasks={tasks} />
         </div>
         <div className="bg-orange-50 p-4 ml-2 w-1/4">
           <h2 className="text-xl mb-6">Calendar</h2>

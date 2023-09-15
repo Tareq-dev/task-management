@@ -1,23 +1,10 @@
-import { onValue, ref } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { db } from "../context/Firebase";
 import Complete from "./Complete";
 import Processing from "./Processing";
 import Backlog from "./Backlog";
-// import { useFirebase } from "../context/Firebase";
 
-function AllTask() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    onValue(ref(db, "tasks"), (snapshot) => {
-      const data = snapshot.val();
-      const arrayOfObjects = Object.values(data);
-      setTasks(arrayOfObjects);
-    });
-  }, []);
-
+function AllTask({ tasks }) {
   const backlog = tasks?.filter((task) => task?.status === "backlog");
   const complete = tasks?.filter((task) => task?.status === "complete");
   const processing = tasks?.filter((task) => task?.status === "processing");
