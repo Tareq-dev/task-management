@@ -3,22 +3,26 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../context/Firebase";
 import SingleTask from "./SingleTask";
+import Complete from "./Complete";
+import Processing from "./Processing";
+import Backlog from "./Backlog";
 // import { useFirebase } from "../context/Firebase";
 
 function AllTask() {
   const [tasks, setTasks] = useState([]);
-  // const firebase = useFirebase();
 
   useEffect(() => {
     onValue(ref(db, "tasks"), (snapshot) => {
       const data = snapshot.val();
       const arrayOfObjects = Object.values(data);
-      // console.log(arrayOfObjects);
-
       setTasks(arrayOfObjects);
     });
   }, []);
-  // console.log(tasks.map((t) => t));
+
+  const backlog = tasks?.filter((task) => task?.status === "backlog");
+  const complete = tasks?.filter((task) => task?.status === "complete");
+  const processing = tasks?.filter((task) => task?.status === "processing");
+
   return (
     <div className="mt-16">
       <div className="flex justify-between">
@@ -52,7 +56,7 @@ function AllTask() {
             <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-2xl shadow">
               <h4 className="text-orange-600 font-bold">Backlog</h4>
               <div className="bg-orange-500 h-8 w-8 p-1 flex justify-center items-center text-center rounded-full text-white font-bold">
-                <p className="">6</p>
+                <p className="">{backlog?.length}</p>
               </div>
             </div>
             <svg
@@ -70,14 +74,14 @@ function AllTask() {
               />
             </svg>
           </div>
-          <SingleTask tasks={tasks} />
+          <Backlog tasks={tasks} />
         </div>
         <div className="bg-purple-100 p-4 mt-10 rounded-md">
           <div className="flex justify-between mb-6">
             <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-2xl shadow">
               <h4 className="text-purple-600 font-bold">In Progress</h4>
               <div className="bg-purple-500 h-8 w-8 p-1 flex justify-center items-center text-center rounded-full text-white font-bold">
-                <p className="">9</p>
+                <p className="">{processing.length}</p>
               </div>
             </div>
             <svg
@@ -95,100 +99,14 @@ function AllTask() {
               />
             </svg>
           </div>
-          <div className="p-2 bg-white my-2 rounded-md shadow">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-gray-500 ">Due date : 20-02-2023</p>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                />
-              </svg>
-            </div>
-
-            <h5 className="text-xl font-bold py-1">Photo Profile Instagram</h5>
-            <p className="py-2">
-              I want to make a cool photo for instagram. I want to make a cool
-              photo for instagram..
-            </p>
-            <div className="flex text-lg items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                />
-              </svg>
-              <p className="pb-1"> 2</p>
-            </div>
-          </div>
-
-          <div className="p-2 bg-white my-2 rounded-md shadow">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-gray-500 ">Due date : 20-02-2023</p>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                />
-              </svg>
-            </div>
-
-            <h5 className="text-xl font-bold py-1">Photo Profile Instagram</h5>
-            <p className="py-2">
-              I want to make a cool photo for instagram. I want to make a cool
-              photo for instagram..
-            </p>
-            <div className="flex text-lg items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                />
-              </svg>
-              <p className="pb-1"> 2</p>
-            </div>
-          </div>
+          <Processing tasks={tasks} />
         </div>
         <div className="bg-green-100 p-4 mt-10 rounded-md">
           <div className="flex justify-between mb-6">
             <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-2xl shadow">
               <h4 className="text-green-600 font-bold">Completed</h4>
               <div className="bg-green-500 h-8 w-8 p-1 flex justify-center items-center text-center rounded-full text-white font-bold">
-                <p className="">98</p>
+                <p className="">{complete.length}</p>
               </div>
             </div>
             <svg
@@ -206,92 +124,7 @@ function AllTask() {
               />
             </svg>
           </div>
-          <div className="p-2 bg-white my-2 rounded-md shadow">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-gray-500 ">Due date : 20-02-2023</p>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                />
-              </svg>
-            </div>
-
-            <h5 className="text-xl font-bold py-1">Photo Profile Instagram</h5>
-            <p className="py-2">
-              I want to make a cool photo for instagram. I want to make a cool
-              photo for instagram..
-            </p>
-            <div className="flex text-lg items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                />
-              </svg>
-              <p className="pb-1"> 2</p>
-            </div>
-          </div>
-          <div className="p-2 bg-white my-2 rounded-md shadow">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-gray-500 ">Due date : 20-02-2023</p>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                />
-              </svg>
-            </div>
-
-            <h5 className="text-xl font-bold py-1">Photo Profile Instagram</h5>
-            <p className="py-2">
-              I want to make a cool photo for instagram. I want to make a cool
-              photo for instagram..
-            </p>
-            <div className="flex text-lg items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                />
-              </svg>
-              <p className="pb-1"> 2</p>
-            </div>
-          </div>
+          <Complete tasks={tasks} />
         </div>
       </div>
     </div>
