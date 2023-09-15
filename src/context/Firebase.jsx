@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getDatabase, ref, set, push, get } from "firebase/database";
 
 const firebaseConfig = {
@@ -13,6 +14,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
 // Initialize Realtime Database and get a reference to the service
 export const db = getDatabase(app);
@@ -57,25 +59,3 @@ export async function handleCreateComments(
     throw error;
   }
 }
-
-//read comments data
-
-// export async function readCommentData(taskId) {
-//   const commentRef = ref(db, `tasks/${taskId}`);
-
-//   try {
-//     const snapshot = await get(commentRef);
-
-//     if (snapshot.exists()) {
-//       const commentData = snapshot.val();
-//       console.log("Comment Data:", commentData);
-//       return commentData;
-//     } else {
-//       console.log("No data available for the specified comment.");
-//       return null;
-//     }
-//   } catch (error) {
-//     console.error("Error reading comment data:", error);
-//     throw error;
-//   }
-// }

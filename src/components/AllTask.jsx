@@ -2,7 +2,6 @@ import { onValue, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../context/Firebase";
-import SingleTask from "./SingleTask";
 import Complete from "./Complete";
 import Processing from "./Processing";
 import Backlog from "./Backlog";
@@ -27,7 +26,7 @@ function AllTask() {
     <div className="mt-16">
       <div className="flex justify-between">
         <div>
-          <h1 className="text-3xl font-bold py-1">All My Tasks</h1>
+          <h1 className="text-3xl font-bold py-1">All Tasks</h1>
           <p className="text-gray-500">
             Managing your all tasks is easy with Task Management
           </p>
