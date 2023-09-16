@@ -38,7 +38,7 @@ const TaskForm = ({ onClose }) => {
     onClose();
   };
   return (
-    <div className="bg-white w-full">
+    <div className="bg-white md:w-full">
       <div className="flex justify-between">
         <h2 className="text-2xl font-semibold mb-4">Add New Task</h2>
 

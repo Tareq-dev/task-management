@@ -48,7 +48,7 @@ function Header() {
           </div>
         </div>
       </div>
-      <div className="ml-12 hidden md:block">
+      <div className="ml-8 hidden md:block">
         <h2 className="text-xl">Category Task</h2>
         <div className="flex justify-start items-center gap-7 mt-6">
           <div className="bg-gray-200 text-black rounded-2xl p-6 w-40 h-[140px] flex-col justify-center items-center">
