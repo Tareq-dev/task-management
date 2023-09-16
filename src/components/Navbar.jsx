@@ -47,7 +47,7 @@ function Navbar() {
       });
   };
   return (
-    <div className="flex items-center justify-between w-full my-4">
+    <div className="hidden md:flex items-center justify-between w-full my-4">
       <ul className="flex items-center   gap-10 text-gray-500">
         <li className="px-2 rounded-lg  font-semibold">
           <Link

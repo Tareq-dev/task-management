@@ -8,37 +8,47 @@ function Header() {
   const processing = tasks?.filter((task) => task?.status === "processing");
 
   return (
-    <div className="flex ">
+    <div className="md:flex j">
       <div>
         <h2 className="text-xl">Infromation</h2>
-        <div className="flex justify-start items-center gap-7 mt-6">
-          <div className="bg-orange-400 text-white rounded-2xl p-6">
-            <p className="font-bold">Backlog</p>
-            <div className="flex m-2">
-              <div className="h-8 border-l-4 mr-4 mt-3 border-white"></div>
-              <h3 className="text-5xl">{backlog.length}</h3>
-              <p className="text-lg mt-6 ml-2">Task</p>
+        <div className="flex justify-center md:justify-start items-center gap-4 md:gap-7 mt-6">
+          <div className="bg-orange-400 w-[100px] md:w-[165px] text-white rounded-2xl p-2 md:p-6">
+            <p className="font-bold text-center text-sm md:text-lg">Backlog</p>
+            <div className="flex items-center md:m-2">
+              <div className="h-8 border-l-4 pr-2 md:mr-4 mt-3 border-white"></div>
+              <h3 className="text-3xl mt-3 md:mt-0 md:text-5xl">
+                {backlog.length}
+              </h3>
+              <p className="md:text-lg mt-6 ml-2">Task</p>
             </div>
           </div>
-          <div className="bg-purple-400 text-white rounded-2xl p-6">
-            <p className="font-bold">In Progress</p>
-            <div className="flex m-2">
-              <div className="h-8 border-l-4 mt-3 mr-4 border-white"></div>
-              <h3 className="text-5xl">{processing.length}</h3>
-              <p className="text-lg mt-6 ml-2">Task</p>
+          <div className="bg-purple-400 w-[100px] md:w-[165px] text-white rounded-2xl p-2 md:p-6">
+            <p className="font-bold text-center text-sm md:text-lg">
+              In Progress
+            </p>
+            <div className="flex  md:m-2">
+              <div className="h-8 border-l-4 mt-3 pr-2 md:mr-4 border-white"></div>
+              <h3 className="text-3xl mt-3 md:mt-0 md:text-5xl">
+                {processing.length}
+              </h3>
+              <p className="md:text-lg mt-6 ml-2">Task</p>
             </div>
           </div>
-          <div className="bg-green-400 text-white rounded-2xl p-6">
-            <p className="font-bold">Completed</p>
-            <div className="flex m-2">
-              <div className="h-8 border-l-4 mt-3 mr-4 border-white"></div>
-              <h3 className="text-5xl">{complete.length}</h3>
-              <p className="text-lg mt-6 ml-2">Task</p>
+          <div className="bg-green-400 w-[100px] md:w-[165px] text-white rounded-2xl p-2 md:p-6">
+            <p className="font-bold text-center text-sm md:text-lg">
+              Completed
+            </p>
+            <div className="flex md:m-2">
+              <div className=" h-8 border-l-4 mt-3 pr-2 md:mr-4 border-white"></div>
+              <h3 className="text-3xl mt-3 md:mt-0 md:text-5xl">
+                {complete.length}
+              </h3>
+              <p className="md:text-lg mt-6 ml-2">Task</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="ml-12">
+      <div className="ml-12 hidden md:block">
         <h2 className="text-xl">Category Task</h2>
         <div className="flex justify-start items-center gap-7 mt-6">
           <div className="bg-gray-200 text-black rounded-2xl p-6 w-40 h-[140px] flex-col justify-center items-center">

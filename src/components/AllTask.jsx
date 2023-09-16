@@ -13,16 +13,16 @@ function AllTask() {
 
   return (
     <div className="mt-16">
-      <div className="flex justify-between">
+      <div className="md:flex justify-between">
         <div>
-          <h1 className="text-3xl font-bold py-1">All Tasks</h1>
-          <p className="text-gray-500">
+          <h1 className="text-2xl md:text-3xl font-bold py-1">All Tasks</h1>
+          <p className="text-gray-500 text-sm  md:text-lg">
             Managing your all tasks is easy with Task Management
           </p>
         </div>
         <Link
           to="/all-task"
-          className="bg-gray-200 hover:bg-gray-300 cursor-pointer h-10 mt-4 flex gap-5 rounded-lg p-2"
+          className="bg-gray-200 hidden    md:text-lg hover:bg-gray-300 cursor-pointer h-10 mt-4 md:flex gap-5 rounded-lg p-2"
         >
           See All Task
           <svg
@@ -41,7 +41,7 @@ function AllTask() {
           </svg>
         </Link>
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid md:grid-cols-3 gap-3">
         <div className="bg-orange-100 p-4 mt-10 rounded-md">
           <div className="flex justify-between mb-4">
             <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-md shadow">

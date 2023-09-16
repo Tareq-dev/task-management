@@ -9,12 +9,12 @@ function Home() {
   return (
     <div className="container mx-auto">
       <Navbar />
-      <div className="flex">
-        <div className="bg-gray-50 p-4 w-3/4">
+      <div className="md:flex">
+        <div className="bg-gray-50 p-4 md:w-3/4">
           <Header />
           <AllTask />
         </div>
-        <div className="bg-orange-50 p-4 ml-2 w-1/4">
+        <div className="bg-orange-50 p-4 ml-2 md:w-1/4">
           <h2 className="text-xl mb-6">Calendar</h2>
           <Calendar />
           <AllUsers />
