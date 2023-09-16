@@ -1,6 +1,8 @@
 import React from "react";
+import { useFirebase } from "../context/Firebase";
 
-function Header({ tasks }) {
+function Header() {
+  const { tasks } = useFirebase();
   const backlog = tasks?.filter((task) => task?.status === "backlog");
   const complete = tasks?.filter((task) => task?.status === "complete");
   const processing = tasks?.filter((task) => task?.status === "processing");

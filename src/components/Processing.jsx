@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { handleCreateComments } from "../context/Firebase";
+import { useFirebase } from "../context/Firebase";
 
 function Processing({ tasks }) {
   const [error, setError] = useState("");
   const [comments, setComments] = useState({});
   const [commentator, setCommentator] = useState("tareq");
   const [isCommentVisible, setIsCommentVisible] = useState(false);
-
+  const { handleCreateComments } = useFirebase();
   const toggleCommentVisibility = (taskId) => {
     const updatedComments = { ...comments };
     updatedComments[taskId] = !updatedComments[taskId];
@@ -32,13 +32,13 @@ function Processing({ tasks }) {
     setError("");
   };
   const processing = tasks?.filter((task) => task?.status === "processing");
- 
+
   return (
     <div>
       {processing.map((task, i) => (
         <div key={i}>
           <div className="p-4 bg-white my-2 rounded-md shadow">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-3">
               <p className="text-sm text-gray-500 ">
                 Due date : {task.dueDate}
               </p>

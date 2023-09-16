@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import TaskForm from "./Taskform";
 import { signOut } from "firebase/auth";
-import { auth } from "../context/Firebase";
+import { auth, useFirebase } from "../context/Firebase";
 import { toast } from "react-toastify";
-
-function Navbar({ user }) {
+import logo from "../assets/logo.png";
+function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { user } = useFirebase();
   const openModal = () => {
     if (user?.email) {
       setIsModalOpen(true);
@@ -48,22 +48,26 @@ function Navbar({ user }) {
   };
   return (
     <div className="flex items-center justify-between w-full my-4">
-      <ul className="flex text-lg gap-10 text-gray-500">
-        <li className="px-2 py-1 rounded-lg text-white bg-purple-400 font-semibold">
-          <Link>My projects</Link>
-        </li>
-        <li>
-          <Link>Schedule</Link>
-        </li>
-        <li>
-          <Link>Team</Link>
+      <ul className="flex items-center   gap-10 text-gray-500">
+        <li className="px-2 rounded-lg  font-semibold">
+          <Link
+            to="/"
+            className="text-xl flex justify-center gap-3 items-center"
+          >
+            <img className="w-10" src={logo} alt="" />
+            <p>
+              <span className="text-3xl text-orange-400 font-extrabold">T</span>
+              ask Management
+            </p>
+          </Link>
         </li>
       </ul>
-      <div className=" flex items-center gap-16">
+
+      <div className=" flex items-center gap-10">
         <button
           onClick={openModal}
           className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 cursor-po
-          inter  px-4 rounded-xl flex justify-between items-center "
+          inter px-4 rounded flex justify-between items-center "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +85,12 @@ function Navbar({ user }) {
           </svg>
           Add Task
         </button>
+        <div
+          className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 cursor-po
+          inter  px-4 rounded flex justify-between items-center "
+        >
+          <Link to="/team">Team</Link>
+        </div>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="modal modal-open">
@@ -122,7 +132,7 @@ function Navbar({ user }) {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-10 h-10"
+                  className="w-10 h-10 text-purple-400"
                 >
                   <path
                     strokeLinecap="round"
@@ -139,7 +149,9 @@ function Navbar({ user }) {
               <li>
                 <a className="justify-between">
                   Profile
-                  <span className="badge">New</span>
+                  <span className="px-1 py-1 text-xs rounded-md bg-green-100">
+                    {user?.email}
+                  </span>
                 </a>
               </li>
               <li>

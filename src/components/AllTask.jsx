@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import Complete from "./Complete";
 import Processing from "./Processing";
 import Backlog from "./Backlog";
+import { useFirebase } from "../context/Firebase";
 
-function AllTask({ tasks }) {
+function AllTask() {
+  const { tasks } = useFirebase();
   const backlog = tasks?.filter((task) => task?.status === "backlog");
   const complete = tasks?.filter((task) => task?.status === "complete");
   const processing = tasks?.filter((task) => task?.status === "processing");
@@ -18,7 +20,10 @@ function AllTask({ tasks }) {
             Managing your all tasks is easy with Task Management
           </p>
         </div>
-        <Link className="bg-gray-200 hover:bg-gray-300 cursor-pointer h-10 mt-4 flex gap-5 rounded-lg p-2">
+        <Link
+          to="/all-task"
+          className="bg-gray-200 hover:bg-gray-300 cursor-pointer h-10 mt-4 flex gap-5 rounded-lg p-2"
+        >
           See All Task
           <svg
             xmlns="http://www.w3.org/2000/svg"

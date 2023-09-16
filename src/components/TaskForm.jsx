@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { handleCreateTask } from "../context/Firebase";
-
-// import { useFirebase } from "../context/Firebase";
+import { useFirebase } from "../context/Firebase";
 
 const TaskForm = ({ onClose }) => {
+  const { handleCreateTask } = useFirebase();
   const today = new Date().toISOString().substr(0, 10);
   const [task, setTask] = useState({
     dueDate: today,
@@ -21,7 +20,6 @@ const TaskForm = ({ onClose }) => {
       [name]: value,
     });
   };
-  // const firebase = useFirebase();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,13 +33,6 @@ const TaskForm = ({ onClose }) => {
       task.status,
       email
     );
-    // await firebase.handleCreateTask(
-    //   task.dueDate,
-    //   task.title,
-    //   task.description,
-    //   task.status,
-    //   email
-    // );
 
     onClose();
   };

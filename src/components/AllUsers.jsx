@@ -1,106 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useFirebase } from "../context/Firebase";
+import avatar from "../assets/avatar.jpg";
 function AllUsers() {
+  const { userDb } = useFirebase();
   return (
     <div className="mt-10">
       <h2 className="my-6 text-2xl font-bold ml-6">Team</h2>
       <table className="table">
         <tbody>
-          <tr className="bg-white rounded-lg shadow">
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <div className="mask mask-squircle w-12 h-12">
-                    <img
-                      src="https://daisyui.com/tailwind-css-component-profile-4@56w.png"
-                      alt="Avatar Tailwind CSS Component"
-                    />
+          {userDb &&
+            userDb.map((user) => (
+              <tr key={user?.uid} className="bg-white rounded-lg shadow">
+                <td>
+                  <div className="flex items-center space-x-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle w-12 h-12">
+                        <img src={avatar} alt=" " />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="font-bold">{user?.name}</div>
+                      <div className="text-sm opacity-50">{user?.email}</div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div className="font-bold">Hart Hagerty</div>
-                  <div className="text-sm opacity-50">United States</div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="bg-white rounded-lg shadow">
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <div className="mask mask-squircle w-12 h-12">
-                    <img
-                      src="https://daisyui.com/tailwind-css-component-profile-4@56w.png"
-                      alt="Avatar Tailwind CSS Component"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="font-bold">Hart Hagerty</div>
-                  <div className="text-sm opacity-50">United States</div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="bg-white rounded-lg shadow my-1">
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <div className="mask mask-squircle w-12 h-12">
-                    <img
-                      src="https://daisyui.com/tailwind-css-component-profile-4@56w.png"
-                      alt="Avatar Tailwind CSS Component"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="font-bold">Hart Hagerty</div>
-                  <div className="text-sm opacity-50">United States</div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="bg-white rounded-lg shadow my-1">
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <div className="mask mask-squircle w-12 h-12">
-                    <img
-                      src="https://daisyui.com/tailwind-css-component-profile-4@56w.png"
-                      alt="Avatar Tailwind CSS Component"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="font-bold">Hart Hagerty</div>
-                  <div className="text-sm opacity-50">United States</div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr className="bg-white rounded-lg shadow my-1">
-            <td>
-              <div className="flex items-center space-x-3">
-                <div className="avatar">
-                  <div className="mask mask-squircle w-12 h-12">
-                    <img
-                      src="https://daisyui.com/tailwind-css-component-profile-4@56w.png"
-                      alt="Avatar Tailwind CSS Component"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="font-bold">Hart Hagerty</div>
-                  <div className="text-sm opacity-50">United States</div>
-                </div>
-              </div>
-            </td>
-          </tr>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       <div className="flex justify-end">
-        <Link className="bg-white cursor-pointer h-10 mt-4 flex gap-5 rounded-lg p-2">
+        <Link
+          to="/team"
+          className="bg-white cursor-pointer h-10 mt-4 flex gap-5 rounded-lg p-2"
+        >
           See All User
           <svg
             xmlns="http://www.w3.org/2000/svg"

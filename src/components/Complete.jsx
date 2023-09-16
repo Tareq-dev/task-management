@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { handleCreateComments } from "../context/Firebase";
+import { useFirebase } from "../context/Firebase";
 
 function Complete({ tasks }) {
   const [error, setError] = useState("");
@@ -7,19 +7,25 @@ function Complete({ tasks }) {
   const [commentator, setCommentator] = useState("tareq");
   const [isCommentVisible, setIsCommentVisible] = useState(false);
 
+  const { handleCreateComments } = useFirebase();
+
   const toggleCommentVisibility = (taskId) => {
     const updatedComments = { ...comments };
     updatedComments[taskId] = !updatedComments[taskId];
     setComments(updatedComments);
     setIsCommentVisible(true);
   };
-
   const handleSendClick = (taskId) => {
     let taskComments = comments[taskId] || false;
+    setIsCommentVisible(true);
     const comId = Date.now().toString();
+
     if (typeof taskComments === "string" && taskComments.trim() !== "") {
       handleCreateComments(comId, taskId, commentator, taskComments);
-      setComments({});
+      const updatedComments = { ...comments };
+      updatedComments[taskId] = "";
+      setComments(updatedComments);
+      setError("");
     } else {
       setError("field can't be empty");
     }
@@ -37,7 +43,7 @@ function Complete({ tasks }) {
       {complete.map((task, i) => (
         <div key={i}>
           <div className="p-4 bg-white my-2 rounded-md shadow">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-3">
               <p className="text-sm text-gray-500 ">
                 Due date : {task.dueDate}
               </p>
