@@ -43,77 +43,35 @@ function AllTask() {
       </div>
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-orange-100 p-4 mt-10 rounded-md">
-          <div className="flex justify-between mb-6">
-            <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-2xl shadow">
+          <div className="flex justify-between mb-4">
+            <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-md shadow">
               <h4 className="text-orange-600 font-bold">Backlog</h4>
               <div className="bg-orange-500 h-8 w-8 p-1 flex justify-center items-center text-center rounded-full text-white font-bold">
                 <p className="">{backlog?.length}</p>
               </div>
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-              />
-            </svg>
           </div>
           <Backlog tasks={tasks} />
         </div>
         <div className="bg-purple-100 p-4 mt-10 rounded-md">
           <div className="flex justify-between mb-6">
-            <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-2xl shadow">
+            <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-md shadow">
               <h4 className="text-purple-600 font-bold">In Progress</h4>
               <div className="bg-purple-500 h-8 w-8 p-1 flex justify-center items-center text-center rounded-full text-white font-bold">
                 <p className="">{processing.length}</p>
               </div>
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-              />
-            </svg>
           </div>
           <Processing tasks={tasks} />
         </div>
         <div className="bg-green-100 p-4 mt-10 rounded-md">
           <div className="flex justify-between mb-6">
-            <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-2xl shadow">
+            <div className="flex justify-between items-center gap-4 bg-white p-2 rounded-md shadow">
               <h4 className="text-green-600 font-bold">Completed</h4>
               <div className="bg-green-500 h-8 w-8 p-1 flex justify-center items-center text-center rounded-full text-white font-bold">
                 <p className="">{complete.length}</p>
               </div>
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-              />
-            </svg>
           </div>
           <Complete tasks={tasks} />
         </div>
