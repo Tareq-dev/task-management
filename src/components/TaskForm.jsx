@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFirebase } from "../context/Firebase";
 
 const TaskForm = ({ onClose }) => {
+  const { user } = useFirebase();
   const { handleCreateTask } = useFirebase();
   const today = new Date().toISOString().substr(0, 10);
   const [task, setTask] = useState({
@@ -23,7 +24,7 @@ const TaskForm = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const email = "tareq@gmail.com";
+    const email = user?.email;
     const taskId = Date.now().toString();
     handleCreateTask(
       taskId,
