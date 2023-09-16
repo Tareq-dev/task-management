@@ -1,96 +1,173 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./../components/Navbar";
 import { useFirebase } from "../context/Firebase";
 
 function AllTaskList() {
+  const { user, userDb, tasks, handleCreateComments } = useFirebase();
+  const userData = userDb.find((u) => u.email === user?.email);
+  const [error, setError] = useState("");
   const [openAccordion, setOpenAccordion] = useState(0);
-  const [commentInput, setCommentInput] = useState("");
+  const [sortTask, setSortTask] = useState([]);
+  const [commentInputs, setCommentInputs] = useState(
+    tasks.map(() => ({ commentInputs: "" }))
+  );
   const [comments, setComments] = useState({});
-  const { tasks } = useFirebase();
+  const [accordionStatus, setAccordionStatus] = useState([]);
+
+  useEffect(() => {
+    // Initialize accordionStatus when tasks are loaded
+    if (tasks.length > 0) {
+      setAccordionStatus(tasks.map((_, index) => index === 0));
+    }
+    setSortTask(tasks);
+  }, [tasks]);
+
   const handleAccordionClick = (index) => {
+    setAccordionStatus((prevStatus) =>
+      prevStatus.map((status, i) => (i === index ? !status : status))
+    );
     setOpenAccordion(index);
   };
 
-  const handleCommentInputChange = (event) => {
-    setCommentInput(event.target.value);
+  const handleCommentInputChange = (event, index) => {
+    const newCommentInputs = [...commentInputs];
+    newCommentInputs[index].commentInput = event.target.value;
+    setCommentInputs(newCommentInputs);
+    setError("");
   };
 
-  const handleSendComment = () => {
-    if (commentInput.trim() === "") return;
+  const handleSendComment = (index) => {
+    if (commentInputs[index].commentInput.trim() === "") {
+      setError("Field can't be empty");
+    } else {
+      const taskId = tasks[index].taskId;
 
-    const taskId = tasks[openAccordion].id; // Assuming your task objects have an 'id' property
-    const newComment = {
-      id: Date.now(),
-      text: commentInput,
-    };
+      const comId = Date.now().toString();
+      const commentator = userData.name;
+      const newComment = {
+        comId,
+        taskId,
+        commentator,
+        taskComments: commentInputs[index].commentInput,
+      };
 
-    setComments({
-      ...comments,
-      [taskId]: [...(comments[taskId] || []), newComment],
-    });
+      setComments((prevComments) => ({
+        ...prevComments,
+        [taskId]: [...(prevComments[taskId] || []), newComment],
+      }));
+      handleCreateComments(
+        comId,
+        taskId,
+        commentator,
+        commentInputs[index].commentInput
+      );
 
-    setCommentInput("");
+      // Reset the comment input for this task
+      const newCommentInputs = [...commentInputs];
+      newCommentInputs[index].commentInput = "";
+      setCommentInputs(newCommentInputs);
+    }
   };
 
+  const sortByBacklog = () => {
+    const backlogTask = tasks.filter((t) => t.status === "backlog");
+    setSortTask(backlogTask);
+  };
+  const sortByProcessing = () => {
+    const processingTask = tasks.filter((t) => t.status === "processing");
+    setSortTask(processingTask);
+  };
+  const sortByComplete = () => {
+    const completeTask = tasks.filter((t) => t.status === "complete");
+    setSortTask(completeTask);
+  };
   return (
     <div>
       <Navbar />
-      <h2 className="text-2xl font-bold text-center mt-14">Manage All Task </h2>
+      <h2 className="text-2xl font-bold text-center mt-8">Manage All Task </h2>
       <p className="text-center py-2 text-gray-500">
         Managing your all tasks is easy with Task Management
       </p>
       <div>
         <div className="flex justify-center items-center gap-10 mt-8">
-          <button className="py-2 px-4 bg-orange-400 font-bold rounded">
+          <button
+            onClick={sortByBacklog}
+            className="py-2 px-4 bg-orange-400 font-bold rounded"
+          >
             Backlog
           </button>
-          <button className="py-2 px-4 bg-purple-400 font-bold rounded">
-            Backlog
+          <button
+            onClick={sortByProcessing}
+            className="py-2 px-4 bg-purple-400 font-bold rounded"
+          >
+            Processing
           </button>
-          <button className="py-2 px-4 bg-green-400 font-bold rounded">
-            Backlog
+          <button
+            onClick={sortByComplete}
+            className="py-2 px-4 bg-green-400 font-bold rounded"
+          >
+            Complete
           </button>
         </div>
-        <div>
-          {tasks.map((task, index) => (
-            <div key={task.id} className="mb-4">
+      </div>
+      <div className="w-full max-w-xl mx-auto p-4 mt-8">
+        {sortTask &&
+          sortTask.map((task, index) => (
+            <div key={task.taskId} className="mb-4 border p-4">
               <div
-                className="bg-blue-200 py-2 px-4 rounded-md cursor-pointer"
+                className="bg-blue-100 py-2 px-4 rounded-md cursor-pointer flex justify-between items-center"
                 onClick={() => handleAccordionClick(index)}
               >
                 <h2 className="text-lg font-semibold">{task.title}</h2>
+                <div className="text-xl">
+                  {accordionStatus[index] ? "▼" : "►"}
+                </div>
               </div>
-              {index === openAccordion && (
+              {accordionStatus[index] && (
                 <div className="bg-gray-100 p-4 rounded-md mt-2">
                   <p className="mb-4">{task.description}</p>
 
                   <h3 className="text-lg font-semibold mb-2">Comments</h3>
-                  {comments[task.id]?.map((comment) => (
-                    <div key={comment.id} className="bg-white p-2 mb-2 rounded">
-                      {comment.text}
-                    </div>
-                  ))}
-
+                  <div className="text-lg">
+                    {task?.comments && task?.comments
+                      ? Object.values(task?.comments)?.map((comment, i) => (
+                          <div key={i} className="">
+                            <p className="text-[15px] font-semibold">
+                              #{comment.commentator}
+                            </p>
+                            <p className="text-sm text-gray-500 py-1 ml-1">
+                              {comment.taskComments}
+                            </p>
+                          </div>
+                        ))
+                      : ""}
+                  </div>
                   <div className="flex mt-4">
                     <input
                       type="text"
                       placeholder="Add a comment..."
-                      value={commentInput}
-                      onChange={handleCommentInputChange}
-                      className="w-full border rounded-l py-2 px-4"
+                      value={commentInputs[index]?.commentInput}
+                      onChange={(event) =>
+                        handleCommentInputChange(event, index)
+                      }
+                      className="w-full border rounded-l outline-none py-2 px-4"
                     />
                     <button
-                      onClick={handleSendComment}
-                      className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600"
+                      onClick={() => handleSendComment(index)}
+                      className="bg-green-400 px-4 py-2 rounded-r hover:bg-blue-600"
                     >
                       Send
                     </button>
                   </div>
+                  {error && (
+                    <p className="left-3 text-red-600 text-sm text-center">
+                      {error}
+                    </p>
+                  )}
                 </div>
               )}
             </div>
           ))}
-        </div>
       </div>
     </div>
   );
