@@ -1,9 +1,17 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  push,
+  remove,
+  onValue,
+} from "firebase/database";
 import Loading from "./../components/Loading";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
@@ -131,31 +139,39 @@ export const FirebaseProvider = (props) => {
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "delete it!",
-        cancelButtonText: "cancel!",
+        confirmButtonText: "Delete it!",
+        cancelButtonText: "Cancel",
         reverseButtons: true,
       })
       .then((result) => {
         if (result.isConfirmed) {
-          swalWithBootstrapButtons.fire(
-            "Deleted!",
-            "Your file has been deleted.",
-            "success"
-          );
+          // Perform the Firebase data deletion here
+          // Replace 'tasks' with the path to your Firebase data
+          const taskRef = ref(db, `/tasks/${task.taskId}`);
 
-          console.log(task);
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
+          return Promise.all([remove(taskRef)])
+            .then(() => {
+              toast.success("Post deleted successfully.");
+            })
+
+            .catch((error) => {
+              swalWithBootstrapButtons.fire(
+                "Error",
+                "An error occurred while deleting the task.",
+                "error"
+              );
+              console.error(error);
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire(
             "Cancelled",
-            "Your imaginary file is safe :)",
+            "Your task is safe :)",
             "error"
           );
         }
       });
   };
+
   return (
     <FirebaseContext.Provider
       value={{

@@ -7,6 +7,7 @@ function Processing({ tasks }) {
     user,
     editedData,
     showEditForm,
+    handleDeleteTask,
     handleEditClick,
     handleEditFormClose,
     handleEditFormSubmit,
@@ -68,6 +69,7 @@ function Processing({ tasks }) {
                       />
                     </svg>
                     <svg
+                      onClick={() => handleDeleteTask(task)}
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"

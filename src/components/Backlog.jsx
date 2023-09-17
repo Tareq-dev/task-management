@@ -6,6 +6,7 @@ function Backlog({ tasks }) {
   const {
     user,
     editedData,
+    handleDeleteTask,
     showEditForm,
     handleEditClick,
     handleEditFormClose,
@@ -69,6 +70,7 @@ function Backlog({ tasks }) {
                         />
                       </svg>
                       <svg
+                        onClick={() => handleDeleteTask(task)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
