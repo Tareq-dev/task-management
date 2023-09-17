@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, set, push, onValue } from "firebase/database";
 import Loading from "./../components/Loading";
+import Swal from "sweetalert2";
 
 const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
@@ -114,12 +115,53 @@ export const FirebaseProvider = (props) => {
     console.log("Edited Data:", editedFormData);
     setShowEditForm(false);
   };
+  //***** delete task ************/
+  const handleDeleteTask = (task) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success ml-4",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
 
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "delete it!",
+        cancelButtonText: "cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          swalWithBootstrapButtons.fire(
+            "Deleted!",
+            "Your file has been deleted.",
+            "success"
+          );
+
+          console.log(task);
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Your imaginary file is safe :)",
+            "error"
+          );
+        }
+      });
+  };
   return (
     <FirebaseContext.Provider
       value={{
         showEditForm,
         editedData,
+        handleDeleteTask,
         handleEditFormClose,
         handleEditFormSubmit,
         handleEditClick,

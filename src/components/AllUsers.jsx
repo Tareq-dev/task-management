@@ -7,21 +7,23 @@ function AllUsers() {
   return (
     <div className="mt-10">
       <h2 className="my-6 text-2xl font-bold ml-6">Team</h2>
-      <table className="table">
+      <table className="w-full rounded-md">
         <tbody>
           {userDb &&
             userDb.map((user) => (
               <tr key={user?.uid} className="bg-white rounded-lg shadow">
                 <td>
-                  <div className="flex items-center space-x-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img src={avatar} alt=" " />
-                      </div>
-                    </div>
-                    <div>
+                  <div className="flex items-center space-x-3 px-4 py-1">
+                    <img
+                      className=" w-12 h-12 rounded-full"
+                      src={avatar}
+                      alt=" "
+                    />
+                    <div className="h-12">
                       <div className="font-bold">{user?.name}</div>
-                      <div className="text-sm opacity-50">{user?.email}</div>
+                      <div className="text-sm opacity-50">
+                        {user?.designation}
+                      </div>
                     </div>
                   </div>
                 </td>
