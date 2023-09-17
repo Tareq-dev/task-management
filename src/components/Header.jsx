@@ -24,7 +24,7 @@ function Header() {
           </div>
           <div className="bg-purple-400 w-[100px] md:w-[165px] text-white rounded-2xl p-2 md:p-6">
             <p className="font-bold text-center text-sm md:text-lg">
-              In Progress
+              Progress
             </p>
             <div className="flex  md:m-2">
               <div className="h-8 border-l-4 mt-3 pr-2 md:mr-4 border-white"></div>

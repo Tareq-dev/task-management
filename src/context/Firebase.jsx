@@ -87,6 +87,7 @@ export const FirebaseProvider = (props) => {
       assignedUser,
       email,
     });
+    toast.success('Task added')
   }
   //********Create Comments**********/
   async function handleCreateComments(

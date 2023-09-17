@@ -5,9 +5,20 @@ import { signOut } from "firebase/auth";
 import { auth, useFirebase } from "../context/Firebase";
 import { toast } from "react-toastify";
 import logo from "../assets/logo.png";
+import Modal from "./Modal";
+
 function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenMobile, setIsModalOpenMobile] = useState(false);
   const { user } = useFirebase();
+
+  const openModalMobile = () => {
+    setIsModalOpenMobile(true);
+  };
+
+  const closeModalMobile = () => {
+    setIsModalOpenMobile(false);
+  };
 
   const openModal = () => {
     if (user?.email) {
@@ -231,7 +242,7 @@ function Navbar() {
           </Link>
         </div>
         <div className="navbar-end">
-          <button
+          <button onClick={openModalMobile}
             className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-1 cursor-po
           inter px-1 rounded flex justify-between items-center text-sm"
           >
@@ -239,6 +250,8 @@ function Navbar() {
           </button>
         </div>
       </div>
+      <Modal isOpen={isModalOpenMobile} onClose={closeModalMobile} />
+
     </div>
   );
 }
