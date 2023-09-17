@@ -7,13 +7,13 @@ function Team() {
   return (
     <div>
       <Navbar />
-      <div className="mt-24 flex justify-center">
-        <div className="overflow-x-auto w-1/2 ">
+      <div className="mt-10 md:mt-24 flex justify-center">
+        <div className="overflow-x-auto md:w-1/2 ">
           <table className="table">
             {/* head */}
             <thead>
               <tr>
-                <th></th>
+                <th>SN</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Designation</th>

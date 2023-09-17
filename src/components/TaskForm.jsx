@@ -36,7 +36,7 @@ const TaskForm = ({ onClose }) => {
       task.assignedUser,
       email
     );
-    console.log(task);
+
     onClose();
   };
   return (

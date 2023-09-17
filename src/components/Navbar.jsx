@@ -8,6 +8,7 @@ import logo from "../assets/logo.png";
 function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useFirebase();
+
   const openModal = () => {
     if (user?.email) {
       setIsModalOpen(true);
@@ -231,7 +232,6 @@ function Navbar() {
         </div>
         <div className="navbar-end">
           <button
-            onClick={openModal}
             className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-1 cursor-po
           inter px-1 rounded flex justify-between items-center text-sm"
           >
