@@ -7,6 +7,7 @@ import {
   set,
   push,
   remove,
+  update,
   onValue,
 } from "firebase/database";
 import Loading from "./../components/Loading";
@@ -119,9 +120,15 @@ export const FirebaseProvider = (props) => {
     setShowEditForm(false);
   };
 
-  const handleEditFormSubmit = (editedFormData) => {
-    console.log("Edited Data:", editedFormData);
-    setShowEditForm(false);
+  const handleEditFormSubmit = async (editedFormData) => {
+    const taskRef = ref(db, `/tasks/${editedFormData.taskId}`);
+    return update(taskRef, editedFormData)
+      .then(() => {
+        toast.success("Post updated successfully.");
+        setShowEditForm(false);
+      })
+      .catch((error) => {
+      });
   };
   //***** delete task ************/
   const handleDeleteTask = (task) => {

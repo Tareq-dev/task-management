@@ -6,6 +6,7 @@ function AllTaskList() {
   const { user, userDb, tasks, handleCreateComments } = useFirebase();
   const userData = userDb.find((u) => u.email === user?.email);
   const [error, setError] = useState("");
+  const [taskStatus, setTaskStatus] = useState("");
   const [openAccordion, setOpenAccordion] = useState(0);
   const [sortTask, setSortTask] = useState([]);
   const [commentInputs, setCommentInputs] = useState(
@@ -72,15 +73,19 @@ function AllTaskList() {
   const sortByBacklog = () => {
     const backlogTask = tasks.filter((t) => t.status === "backlog");
     setSortTask(backlogTask);
+    setTaskStatus("backlog");
   };
   const sortByProcessing = () => {
     const processingTask = tasks.filter((t) => t.status === "processing");
     setSortTask(processingTask);
+    setTaskStatus("processing");
   };
   const sortByComplete = () => {
     const completeTask = tasks.filter((t) => t.status === "complete");
     setSortTask(completeTask);
+    setTaskStatus("complete");
   };
+  console.log(taskStatus);
   return (
     <div>
       <Navbar />
@@ -89,33 +94,44 @@ function AllTaskList() {
         Managing your all tasks is easy with Task Management
       </p>
       <div>
-        <div className="flex justify-center items-center gap-10 mt-8">
+        <div className="flex justify-center items-center gap-3 md:gap-10 mt-8">
           <button
             onClick={sortByBacklog}
-            className="py-2 px-4 bg-orange-400 font-bold rounded"
+            className=" px-2 py-1 md:py-2 md:px-4 bg-orange-400 font-bold rounded"
           >
             Backlog
           </button>
           <button
             onClick={sortByProcessing}
-            className="py-2 px-4 bg-purple-400 font-bold rounded"
+            className="px-2 py-1 md:py-2 md:px-4 bg-purple-400 font-bold rounded"
           >
             Processing
           </button>
           <button
             onClick={sortByComplete}
-            className="py-2 px-4 bg-green-400 font-bold rounded"
+            className="px-2 py-1 md:py-2 md:px-4 bg-green-400 font-bold rounded"
           >
             Complete
           </button>
         </div>
       </div>
-      <div className="w-full max-w-xl mx-auto p-4 mt-8">
+
+      <div
+        className={
+          (taskStatus === "backlog" &&
+            "bg-orange-100 w-full max-w-xl mx-auto p-4 mt-8") ||
+          (taskStatus === "processing" &&
+            "bg-purple-100 w-full max-w-xl mx-auto p-4 mt-8") ||
+          (taskStatus === "complete" &&
+            "bg-green-100 w-full max-w-xl mx-auto p-4 mt-8") ||
+          "w-full max-w-xl mx-auto p-4 mt-8"
+        }
+      >
         {sortTask &&
           sortTask.map((task, index) => (
-            <div key={task.taskId} className="mb-4 border p-4">
+            <div key={task.taskId} className="mb-2 rounded p-4">
               <div
-                className="bg-blue-100 py-2 px-4 rounded-md cursor-pointer flex justify-between items-center"
+                className="bg-blue-200 py-2 px-4 rounded-md cursor-pointer flex justify-between items-center"
                 onClick={() => handleAccordionClick(index)}
               >
                 <h2 className="text-lg font-semibold">{task.title}</h2>
@@ -124,7 +140,7 @@ function AllTaskList() {
                 </div>
               </div>
               {accordionStatus[index] && (
-                <div className="bg-gray-100 p-4 rounded-md mt-2">
+                <div className="bg-white p-4 rounded-md mt-2">
                   <p className="mb-4">{task.description}</p>
 
                   <h3 className="text-lg font-semibold mb-2">Comments</h3>
@@ -150,7 +166,7 @@ function AllTaskList() {
                       onChange={(event) =>
                         handleCommentInputChange(event, index)
                       }
-                      className="w-full border rounded-l outline-none py-2 px-4"
+                      className="w-full border border-gray-500  rounded-l outline-none py-2 px-4"
                     />
                     <button
                       onClick={() => handleSendComment(index)}
