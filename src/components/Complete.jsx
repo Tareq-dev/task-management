@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { useFirebase } from "../context/Firebase";
+import EditForm from "./EditForm";
 
 function Complete({ tasks }) {
-  const { user } = useFirebase();
+  const {
+    user,
+    editedData,
+    showEditForm,
+    handleEditClick,
+    handleEditFormClose,
+    handleEditFormSubmit,
+  } = useFirebase();
   const [error, setError] = useState("");
   const [comments, setComments] = useState({});
   const [commentator, setCommentator] = useState("tareq");
@@ -50,6 +58,7 @@ function Complete({ tasks }) {
                 {user?.email === task?.email && (
                   <div className="flex justify-between gap-2">
                     <svg
+                      onClick={() => handleEditClick(task)}
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -79,10 +88,22 @@ function Complete({ tasks }) {
                     </svg>
                   </div>
                 )}
+                {showEditForm && (
+                  <EditForm
+                    data={editedData}
+                    onClose={handleEditFormClose}
+                    onSave={handleEditFormSubmit}
+                  />
+                )}
               </div>
 
               <h5 className="text-xl font-bold py-1">{task.title}</h5>
               <p className="py-2">{task.description}</p>
+              {task.assignedUser && (
+                <p className="pb-4 italic font-mono text-sm text-green-700 pl-2">
+                  Assign to @{task.assignedUser}
+                </p>
+              )}
               <div className="">
                 <div
                   onClick={() => toggleCommentVisibility(task.taskId)}

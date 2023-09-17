@@ -26,6 +26,8 @@ export const FirebaseProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [userDb, setUserDb] = useState([]);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editedData, setEditedData] = useState(null);
 
   //********Get Task**********/
   useEffect(() => {
@@ -63,6 +65,7 @@ export const FirebaseProvider = (props) => {
     title,
     description,
     status,
+    assignedUser,
     email
   ) {
     set(ref(db, "tasks/" + taskId), {
@@ -71,6 +74,7 @@ export const FirebaseProvider = (props) => {
       title,
       description,
       status,
+      assignedUser,
       email,
     });
   }
@@ -91,15 +95,34 @@ export const FirebaseProvider = (props) => {
     const newCommentRef = push(taskCommentsRef);
     try {
       await set(newCommentRef, commentData);
-      // console.log("Comment added successfully.");
     } catch (error) {
-      // console.error("Error adding comment:", error);
       throw error;
     }
   }
+
+  // ****** Edit Data *******/
+  const handleEditClick = (task) => {
+    setEditedData(task);
+    setShowEditForm(true);
+  };
+
+  const handleEditFormClose = () => {
+    setShowEditForm(false);
+  };
+
+  const handleEditFormSubmit = (editedFormData) => {
+    console.log("Edited Data:", editedFormData);
+    setShowEditForm(false);
+  };
+
   return (
     <FirebaseContext.Provider
       value={{
+        showEditForm,
+        editedData,
+        handleEditFormClose,
+        handleEditFormSubmit,
+        handleEditClick,
         handleCreateTask,
         handleCreateComments,
         loading,

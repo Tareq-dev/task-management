@@ -11,6 +11,7 @@ const TaskForm = ({ onClose }) => {
     description: "",
     status: "backlog",
     email: "",
+    assignedUser: "",
     comments: [],
   });
 
@@ -32,9 +33,10 @@ const TaskForm = ({ onClose }) => {
       task.title,
       task.description,
       task.status,
+      task.assignedUser,
       email
     );
-
+    console.log(task);
     onClose();
   };
   return (
@@ -44,7 +46,7 @@ const TaskForm = ({ onClose }) => {
 
         <button
           onClick={onClose}
-          className="lg:tooltip lg:tooltip-bottom"
+          className="lg:tooltip lg:tooltip-bottom mb-4"
           data-tip="Close"
         >
           <svg
@@ -64,21 +66,43 @@ const TaskForm = ({ onClose }) => {
         </button>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="dueDate" className="block text-gray-700 font-medium">
-            Due Date:
-          </label>
-          <input
-            type="date"
-            id="dueDate"
-            name="dueDate"
-            value={task.dueDate}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
+        <div className="flex justify-between gap-2 mb-2">
+          <div className=" w-1/2">
+            <label
+              htmlFor="dueDate"
+              className="block text-gray-700 font-medium"
+            >
+              Due Date:
+            </label>
+            <input
+              type="date"
+              id="dueDate"
+              name="dueDate"
+              value={task.dueDate}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg"
+              required
+            />
+          </div>
+          <div className=" w-1/2">
+            <label
+              className="block text-gray-700 font-medium "
+              htmlFor="assignedUser"
+            >
+              Assigned User (Optional)
+            </label>
+            <input
+              type="text"
+              id="assignedUser"
+              name="assignedUser"
+              value={task.assignedUser}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+          </div>
         </div>
-        <div className="mb-4">
+
+        <div className="mb-2">
           <label htmlFor="title" className="block text-gray-700 font-medium">
             Title:
           </label>
@@ -92,7 +116,7 @@ const TaskForm = ({ onClose }) => {
             required
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <label
             htmlFor="description"
             className="block text-gray-700 font-medium"
@@ -104,11 +128,13 @@ const TaskForm = ({ onClose }) => {
             name="description"
             value={task.description}
             onChange={handleChange}
+            required
             rows="4"
-            className="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            style={{ height: "56px" }}
+            className="w-full px-4 py-2   border rounded-lg focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <label htmlFor="status" className="block text-gray-700 font-medium">
             Status:
           </label>
@@ -117,13 +143,14 @@ const TaskForm = ({ onClose }) => {
             name="status"
             value={task.status}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border rounded-lg"
           >
             <option value="backlog">Backlog</option>
             <option value="processing">Processing</option>
             <option value="complete">Complete</option>
           </select>
         </div>
+
         <div className="text-center">
           <button
             type="submit"
