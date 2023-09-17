@@ -49,8 +49,13 @@ function SignUp() {
           }
         })
         .catch((error) => {
-          const errorMessage = error.message;
-          console.log(errorMessage);
+          if (error.code === "auth/weak-password") {
+            setSignupError("Password should be 6 characters.");
+          } else if (error.code === "auth/email-already-in-use") {
+            setSignupError("Email is already in use.");
+          } else {
+            setSignupError("An error occurred. Please try again later.");
+          }
         });
       setSignupError("");
     }
@@ -58,45 +63,47 @@ function SignUp() {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="md:w-1/3 bg-purple-200 px-10 md:px-24 py-4 md:py-10 rounded-md">
+      <div className="md:w-1/3 bg-purple-200 px-10 md:px-8 py-4 md:py-10 rounded-md">
         <h1 className="text-2xl font-semibold mb-2 md:mb-4 text-center uppercase">
           Sign up
         </h1>
         <form onSubmit={handleSignup}>
-          <div className="mb-2 md:mb-4">
-            <label htmlFor="email" className="block text-gray-700">
-              Full Name:
-            </label>
-            <input
-              type="text"
-              id="userName"
-              name="userName"
-              placeholder="Enter your Name"
-              value={signupData.userName}
-              onChange={(e) =>
-                setSignupData({ ...signupData, userName: e.target.value })
-              }
-              className="w-full px-2 md:p-2 border rounded outline-none"
-            />
-          </div>
-          <div className=" mb-2 md:mb-4">
-            <label htmlFor="designation" className="block text-gray-700">
-              Designation:
-            </label>
-            <input
-              type="text"
-              id="designation"
-              name="designation"
-              placeholder="Enter your designation"
-              value={signupData.designation}
-              onChange={(e) =>
-                setSignupData({
-                  ...signupData,
-                  designation: e.target.value,
-                })
-              }
-              className="w-full px-2 md:p-2 border rounded outline-none"
-            />
+          <div className="flex justify-between gap-2">
+            <div className="mb-2 md:mb-4">
+              <label htmlFor="email" className="block text-gray-700">
+                Full Name:
+              </label>
+              <input
+                type="text"
+                id="userName"
+                name="userName"
+                placeholder="Enter your Name"
+                value={signupData.userName}
+                onChange={(e) =>
+                  setSignupData({ ...signupData, userName: e.target.value })
+                }
+                className="w-full px-2 md:p-2 border rounded outline-none"
+              />
+            </div>
+            <div className=" mb-2 md:mb-4">
+              <label htmlFor="designation" className="block text-gray-700">
+                Designation:
+              </label>
+              <input
+                type="text"
+                id="designation"
+                name="designation"
+                placeholder="Enter your designation"
+                value={signupData.designation}
+                onChange={(e) =>
+                  setSignupData({
+                    ...signupData,
+                    designation: e.target.value,
+                  })
+                }
+                className="w-full px-2 md:p-2 border rounded outline-none"
+              />
+            </div>
           </div>
           <div className="mb-2 md:mb-4">
             <label htmlFor="email" className="block text-gray-700">
@@ -137,7 +144,13 @@ function SignUp() {
               Login
             </Link>
           </p>
-          <p className="text-red-500 mb-4 text-center">{signupError}</p>
+          {signupError && (
+            <div className="flex justify-center">
+              <span className="text-red-500 my-2 text-center bg-white px-2 rounded-md">
+                {signupError}
+              </span>
+            </div>
+          )}
           <div className="flex justify-center">
             <button
               type="submit"

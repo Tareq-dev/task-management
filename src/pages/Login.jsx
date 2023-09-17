@@ -34,8 +34,16 @@ function Login() {
           // ...
         })
         .catch((error) => {
-          const errorMessage = error.message;
-          console.log(errorMessage);
+          if (error.code === "auth/invalid-login-credentials") {
+            setLoginError("Invalid email or password");
+          } else if (error.code === "auth/user-not-found") {
+            setLoginError("User not found.");
+          } else if (error.code === "auth/wrong-password") {
+            setLoginError("Incorrect password.");
+          } else {
+            console.log(error.message);
+            setLoginError("An error occurred. Please try again later.");
+          }
         });
       setLoginError("");
     }
@@ -85,7 +93,13 @@ function Login() {
               Creat one
             </Link>
           </p>
-          <p className="text-red-500 mb-2 md:mb-4">{loginError}</p>
+          {loginError && (
+            <div className="flex justify-center">
+              <span className="text-red-500 my-2 text-center bg-white px-2 rounded-md">
+                {loginError}
+              </span>
+            </div>
+          )}
           <div className="flex justify-center">
             <button
               type="submit"
