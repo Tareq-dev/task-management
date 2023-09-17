@@ -8,23 +8,23 @@ import { ref, set } from "firebase/database";
 function SignUp() {
   const [signupData, setSignupData] = useState({
     userName: "",
+    designation: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
+
   const [signupError, setSignupError] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     if (
+      !signupData.userName ||
       !signupData.email ||
       !signupData.password ||
-      !signupData.confirmPassword
+      !signupData.designation
     ) {
       setSignupError("Please fill in all fields.");
-    } else if (signupData.password !== signupData.confirmPassword) {
-      setSignupError("Passwords do not match.");
     } else {
       createUserWithEmailAndPassword(
         auth,
@@ -36,18 +36,15 @@ function SignUp() {
           const email = user?.email;
           const uid = userCredential?.user.uid;
           const name = signupData?.userName;
+          const designation = signupData?.designation;
 
           if (user?.email) {
             navigate("/");
             toast.success("Successfully created");
             try {
               const userRef = ref(db, `users/${uid}`);
-              const userData = { uid, name, email };
+              const userData = { uid, name, designation, email };
               set(userRef, userData);
-              console.log(
-                "User logged in successfully:",
-                userCredential.user?.email
-              );
             } catch (error) {}
           }
         })
@@ -55,33 +52,53 @@ function SignUp() {
           const errorMessage = error.message;
           console.log(errorMessage);
         });
-
-      setSignupError(""); // Clear error on successful signup
+      setSignupError("");
     }
   };
+
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-1/3 bg-orange-100 px-24 py-10 rounded-md">
-        <h1 className="text-2xl font-semibold mb-4 text-center uppercase">
+      <div className="md:w-1/3 bg-purple-200 px-10 md:px-24 py-4 md:py-10 rounded-md">
+        <h1 className="text-2xl font-semibold mb-2 md:mb-4 text-center uppercase">
           Sign up
         </h1>
         <form onSubmit={handleSignup}>
-          <div className="mb-4">
+          <div className="mb-2 md:mb-4">
             <label htmlFor="email" className="block text-gray-700">
-              User Name:
+              Full Name:
             </label>
             <input
               type="text"
               id="userName"
               name="userName"
+              placeholder="Enter your Name"
               value={signupData.userName}
               onChange={(e) =>
                 setSignupData({ ...signupData, userName: e.target.value })
               }
-              className="w-full p-2 border rounded outline-none"
+              className="w-full px-2 md:p-2 border rounded outline-none"
             />
           </div>
-          <div className="mb-4">
+          <div className=" mb-2 md:mb-4">
+            <label htmlFor="designation" className="block text-gray-700">
+              Designation:
+            </label>
+            <input
+              type="text"
+              id="designation"
+              name="designation"
+              placeholder="Enter your designation"
+              value={signupData.designation}
+              onChange={(e) =>
+                setSignupData({
+                  ...signupData,
+                  designation: e.target.value,
+                })
+              }
+              className="w-full px-2 md:p-2 border rounded outline-none"
+            />
+          </div>
+          <div className="mb-2 md:mb-4">
             <label htmlFor="email" className="block text-gray-700">
               Email:
             </label>
@@ -89,14 +106,15 @@ function SignUp() {
               type="email"
               id="email"
               name="email"
+              placeholder="Enter your email"
               value={signupData.email}
               onChange={(e) =>
                 setSignupData({ ...signupData, email: e.target.value })
               }
-              className="w-full p-2 border rounded outline-none"
+              className="w-full px-2 md:p-2 border rounded outline-none"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-2 md:mb-4">
             <label htmlFor="password" className="block text-gray-700">
               Password:
             </label>
@@ -104,31 +122,15 @@ function SignUp() {
               type="password"
               id="password"
               name="password"
+              placeholder="Enter your password"
               value={signupData.password}
               onChange={(e) =>
                 setSignupData({ ...signupData, password: e.target.value })
               }
-              className="w-full p-2 border rounded outline-none"
+              className="w-full px-2 md:p-2 border rounded outline-none"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-gray-700">
-              Confirm Password:
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={signupData.confirmPassword}
-              onChange={(e) =>
-                setSignupData({
-                  ...signupData,
-                  confirmPassword: e.target.value,
-                })
-              }
-              className="w-full p-2 border rounded outline-none"
-            />
-          </div>
+
           <p>
             Allready have account?
             <Link to="/login" className="underline text-blue-500">
@@ -144,7 +146,10 @@ function SignUp() {
               Signup
             </button>
           </div>
-          <Link to="/" className="flex justify-center items-center mt-8 gap-4">
+          <Link
+            to="/"
+            className="flex justify-center items-center mt-4 md:mt-8 gap-4"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

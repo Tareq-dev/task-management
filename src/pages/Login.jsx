@@ -42,7 +42,7 @@ function Login() {
   };
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-1/3 bg-orange-100 px-24 py-10 rounded-md">
+      <div className="md:w-1/3 bg-purple-200 border shadow px-10 md:px-24 py-10 rounded-md">
         <h1 className="text-2xl font-semibold mb-4 text-center uppercase">
           Login
         </h1>
@@ -55,11 +55,12 @@ function Login() {
               type="email"
               id="email"
               name="email"
+              placeholder="Enter your email"
               value={loginData.email}
               onChange={(e) =>
                 setLoginData({ ...loginData, email: e.target.value })
               }
-              className="w-full outline-none p-2 border rounded"
+              className="w-full outline-none px-2 md:p-2 border rounded"
             />
           </div>
           <div className="mb-4">
@@ -70,11 +71,12 @@ function Login() {
               type="password"
               id="password"
               name="password"
+              placeholder="Enter your password"
               value={loginData.password}
               onChange={(e) =>
                 setLoginData({ ...loginData, password: e.target.value })
               }
-              className="w-full outline-none p-2 border rounded"
+              className="w-full outline-none px-2 md:p-2 border rounded"
             />
           </div>
           <p>
@@ -83,7 +85,7 @@ function Login() {
               Creat one
             </Link>
           </p>
-          <p className="text-red-500 mb-4">{loginError}</p>
+          <p className="text-red-500 mb-2 md:mb-4">{loginError}</p>
           <div className="flex justify-center">
             <button
               type="submit"
