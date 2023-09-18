@@ -100,7 +100,12 @@ function Complete({ tasks }) {
                   />
                 )}
               </div>
-
+              <p className="text-sm text-blue-700 ">
+                Created by
+                <span className="ml-1">
+                  {userDb.find((u) => u?.email === task?.email)?.name}
+                </span>
+              </p>
               <h5 className="text-xl font-bold py-1">{task.title}</h5>
               <p className="py-2">{task.description}</p>
               {task.assignedUser && (

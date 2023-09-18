@@ -128,12 +128,12 @@ function AllTaskList() {
       >
         {sortTask &&
           sortTask.map((task, index) => (
-            <div key={task.taskId} className="mb-2 rounded p-4">
+            <div key={task.taskId} className="mb-2 rounded p-1">
               <div
                 className="bg-blue-200 py-2 px-4 rounded-md cursor-pointer flex justify-between items-center"
                 onClick={() => handleAccordionClick(index)}
               >
-                <h2 className="text-lg font-semibold">{task.title}</h2>
+                <h2 className="md:text-lg font-semibold">{task.title}</h2>
                 <div className="text-xl">
                   {accordionStatus[index] ? "▼" : "►"}
                 </div>

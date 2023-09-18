@@ -13,7 +13,20 @@ function Navbar() {
   const { user } = useFirebase();
 
   const openModalMobile = () => {
-    setIsModalOpenMobile(true);
+    if (user?.email) {
+      setIsModalOpenMobile(true);
+    } else {
+      toast.error("Please Login First!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   const closeModalMobile = () => {
@@ -242,7 +255,8 @@ function Navbar() {
           </Link>
         </div>
         <div className="navbar-end">
-          <button onClick={openModalMobile}
+          <button
+            onClick={openModalMobile}
             className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-1 cursor-po
           inter px-1 rounded flex justify-between items-center text-sm"
           >
@@ -251,7 +265,6 @@ function Navbar() {
         </div>
       </div>
       <Modal isOpen={isModalOpenMobile} onClose={closeModalMobile} />
-
     </div>
   );
 }

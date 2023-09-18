@@ -31,6 +31,7 @@ const Modal = ({ isOpen, onClose }) => {
 
     const email = user?.email;
     const taskId = Date.now().toString();
+   
     handleCreateTask(
       taskId,
       formData.dueDate,
