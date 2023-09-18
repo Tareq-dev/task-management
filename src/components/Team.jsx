@@ -27,7 +27,7 @@ function Team() {
                     <th>{i + 1}</th>
                     <td>{u.name}</td>
                     <td>{u.email}</td>
-                    <td>Frontend Developer</td>
+                    <td>{u.designation}</td>
                   </tr>
                 ))}
             </tbody>

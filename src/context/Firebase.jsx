@@ -13,18 +13,10 @@ import {
 import Loading from "./../components/Loading";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { firebaseConfig } from "../../configFirebase";
 
 const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
-const firebaseConfig = {
-  apiKey: "AIzaSyCIMhiltWftdVBKTDCMat5vzIwttgcihd4",
-  authDomain: "task-management-trk.firebaseapp.com",
-  projectId: "task-management-trk",
-  storageBucket: "task-management-trk.appspot.com",
-  messagingSenderId: "591830087023",
-  appId: "1:591830087023:web:0d3e9e71ba7d22aad5249a",
-  databaseURL: "https://task-management-trk-default-rtdb.firebaseio.com",
-};
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
@@ -87,7 +79,7 @@ export const FirebaseProvider = (props) => {
       assignedUser,
       email,
     });
-    toast.success('Task added')
+    toast.success("Task added");
   }
   //********Create Comments**********/
   async function handleCreateComments(
@@ -128,8 +120,7 @@ export const FirebaseProvider = (props) => {
         toast.success("Post updated successfully.");
         setShowEditForm(false);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   };
   //***** delete task ************/
   const handleDeleteTask = (task) => {

@@ -85,7 +85,6 @@ function AllTaskList() {
     setSortTask(completeTask);
     setTaskStatus("complete");
   };
-  console.log(taskStatus);
   return (
     <div>
       <Navbar />
@@ -97,19 +96,19 @@ function AllTaskList() {
         <div className="flex justify-center items-center gap-3 md:gap-10 mt-8">
           <button
             onClick={sortByBacklog}
-            className=" px-2 py-1 md:py-2 md:px-4 bg-orange-400 font-bold rounded"
+            className=" px-2 py-1 md:py-2 md:px-4 border border-orange-400 font-bold rounded-xl"
           >
             Backlog
           </button>
           <button
             onClick={sortByProcessing}
-            className="px-2 py-1 md:py-2 md:px-4 bg-purple-400 font-bold rounded"
+            className="px-2 py-1 md:py-2 md:px-4 border border-purple-400  font-bold rounded-xl"
           >
             Processing
           </button>
           <button
             onClick={sortByComplete}
-            className="px-2 py-1 md:py-2 md:px-4 bg-green-400 font-bold rounded"
+            className="px-2 py-1 md:py-2 md:px-4 border border-green-400  font-bold rounded-xl"
           >
             Complete
           </button>
