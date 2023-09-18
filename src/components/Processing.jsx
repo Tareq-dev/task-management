@@ -5,6 +5,7 @@ import EditForm from "./EditForm";
 function Processing({ tasks }) {
   const {
     user,
+    userDb,
     editedData,
     showEditForm,
     handleDeleteTask,
@@ -13,8 +14,9 @@ function Processing({ tasks }) {
     handleEditFormSubmit,
   } = useFirebase();
   const [error, setError] = useState("");
+  const matchUser = userDb.find((u) => u?.email === user?.email);
   const [comments, setComments] = useState({});
-  const [commentator, setCommentator] = useState("tareq");
+  const [commentator, setCommentator] = useState(matchUser?.name);
   const [isCommentVisible, setIsCommentVisible] = useState(false);
   const { handleCreateComments } = useFirebase();
   const toggleCommentVisibility = (taskId) => {

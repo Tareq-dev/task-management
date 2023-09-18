@@ -5,6 +5,7 @@ import EditForm from "./EditForm";
 function Backlog({ tasks }) {
   const {
     user,
+    userDb,
     editedData,
     handleDeleteTask,
     showEditForm,
@@ -12,9 +13,11 @@ function Backlog({ tasks }) {
     handleEditFormClose,
     handleEditFormSubmit,
   } = useFirebase();
+
+  const matchUser = userDb.find((u) => u?.email === user?.email);
   const [error, setError] = useState("");
   const [comments, setComments] = useState({});
-  const [commentator, setCommentator] = useState("tareq");
+  const [commentator, setCommentator] = useState(matchUser?.name);
   const [isCommentVisible, setIsCommentVisible] = useState(false);
   const { handleCreateComments } = useFirebase();
   const toggleCommentVisibility = (taskId) => {
